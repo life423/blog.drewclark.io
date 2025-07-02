@@ -9,10 +9,10 @@ const fastify = Fastify({
   logger: true
 });
 
-// Register CORS
+// Register CORS plugin
 await fastify.register(cors, {
-  origin: process.env.NODE_ENV === "production" 
-    ? "https://blog.drewclark.io" 
+  origin: process.env['NODE_ENV'] === 'production'
+    ? 'https://blog.drewclark.io'
     : true
 });
 
@@ -22,15 +22,20 @@ fastify.get("/health", async (request, reply) => {
 });
 
 // Start server
-const start = async () => {
+// Start server
+const start = async (): Promise<void> => {
   try {
-    const port = process.env.PORT || 3000;
-    await fastify.listen({ port: Number(port), host: "0.0.0.0" });
+    // Accessing PORT via bracket notation to satisfy TypeScript’s index signature
+    const port = Number(process.env['PORT'] ?? 3000);
+
+    // Launch Fastify on the resolved port and host
+    await fastify.listen({ port, host: 'localhost' });
     console.log(`Server running on port ${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
   }
 };
+
 
 start();
