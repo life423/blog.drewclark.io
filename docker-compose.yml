@@ -35,8 +35,20 @@ services:
       - blog-network
     command: npm run dev
 
-  # Frontend will come later
-  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: blog-frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - blog-network
+    environment:
+      VITE_API_URL: "http://localhost:3000"
+    depends_on:
+      - backend
+
 networks:
   blog-network:
     driver: bridge
