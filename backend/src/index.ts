@@ -17,11 +17,28 @@ await fastify.register(cors, {
 });
 
 // Health check route
+fastify.get("/", async (request, reply) => {
+  return { status: "ok, from the root route", timestamp: new Date().toISOString() };
+});
 fastify.get("/health", async (request, reply) => {
   return { status: "ok", timestamp: new Date().toISOString() };
 });
 
-// Start server
+// Test POST route - accepts JSON and logs it
+fastify.post("/api/test", async (request, reply) => {
+  // Fastify automatically parses JSON bodies
+  const body = request.body;
+  
+  // Log to console
+  console.log("Received POST data:", body);
+  
+  // Send back what we received
+  return { 
+    message: "Data received successfully",
+    receivedData: body,
+    timestamp: new Date().toISOString()
+  };
+});
 // Start server
 const start = async (): Promise<void> => {
   try {
