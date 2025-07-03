@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { PostController } from '../controllers/postController.js';
+import { authenticate } from '../middleware/auth.js';
 
 const postController = new PostController();
 
@@ -93,12 +94,14 @@ export async function postRoutes(fastify: FastifyInstance): Promise<void> {
   }, postController.getPostById.bind(postController));
 
   fastify.post('/', {
+    preHandler: authenticate,
     schema: {
       body: createPostSchema,
     },
   }, postController.createPost.bind(postController));
 
   fastify.put('/:id', {
+    preHandler: authenticate,
     schema: {
       params: idParamSchema,
       body: updatePostSchema,
@@ -106,6 +109,7 @@ export async function postRoutes(fastify: FastifyInstance): Promise<void> {
   }, postController.updatePost.bind(postController));
 
   fastify.delete('/:id', {
+    preHandler: authenticate,
     schema: {
       params: idParamSchema,
     },

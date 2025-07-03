@@ -1,5 +1,6 @@
 import type { Post, PostQuery, CreatePostBody, UpdatePostBody } from '../types/index.js';
 import { PostRepository } from '../repositories/postRepository.js';
+import { prisma } from '../config/database.js';
 import { ValidationError, NotFoundError } from '../utils/errors.js';
 
 export class PostService {
@@ -7,6 +8,13 @@ export class PostService {
 
   constructor() {
     this.postRepository = new PostRepository();
+  }
+
+  async verifyUserExists(userId: string): Promise<void> {
+    await prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: { id: true }
+    });
   }
 
   async getPosts(query: PostQuery): Promise<{ posts: Post[]; total: number; totalPages: number }> {

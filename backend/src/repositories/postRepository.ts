@@ -170,12 +170,11 @@ export class PostRepository {
     }
 
     async create(data: CreatePostBody & { authorId: string }): Promise<Post> {
-        const { tags, authorId, ...postData } = data
+        const { tags, ...postData } = data
 
         const post = await prisma.post.create({
             data: {
                 ...postData,
-                author: { connect: { id: authorId } },  // 🔑 satisfy FK
                 publishedAt: postData.published ? new Date() : null,
                 tags: tags
                     ? {
@@ -184,7 +183,7 @@ export class PostRepository {
                           })),
                       }
                     : undefined,
-            } as any,
+            },
             include: {
                 author: {
                     select: {
