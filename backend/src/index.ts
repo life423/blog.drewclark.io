@@ -23,6 +23,11 @@ await fastify.register(cors, {
   credentials: true,
 });
 
+// Register JWT plugin
+await fastify.register(import('@fastify/jwt'), {
+  secret: process.env.JWT_SECRET || 'fallback-secret'
+});
+
 // Health check routes
 fastify.get('/', async (request, reply) => {
   return { 
@@ -43,6 +48,7 @@ fastify.get('/health', async (request, reply) => {
 
 // API routes
 fastify.register(async function (fastify) {
+  await fastify.register((await import('./routes/authRoutes.js')).authRoutes, { prefix: '/api/auth' });
   await fastify.register(postRoutes, { prefix: '/api/posts' });
 });
 

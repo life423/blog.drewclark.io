@@ -67,8 +67,8 @@ export class PostController {
   async createPost(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
       const body = request.body as CreatePostBody;
-      // TODO: Get authorId from authenticated user
-      const authorId = 'test-author-123'; // This will be replaced with actual auth
+      // Get authorId from authenticated user or use anonymous for testing
+      const authorId = (request.user as any)?.userId || 'anonymous';
       
       const post = await this.postService.createPost(body, authorId);
 
