@@ -4,8 +4,9 @@ RUN corepack enable && corepack prepare pnpm@10.12.4 --activate
 WORKDIR /app
 
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json ./
+COPY pnpm-lock.yaml* ./
+RUN pnpm install
 
 # Copy source files
 COPY . .

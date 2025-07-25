@@ -34,18 +34,21 @@ services:
     command: npm run dev
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: node:22-alpine
     container_name: blog-frontend
+    working_dir: /app
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: "http://localhost:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - "5173:5173"
     networks:
       - blog-network
-    environment:
-      VITE_API_URL: "http://localhost:3000"
-    depends_on:
-      - backend
+    command: sh -c "corepack enable && corepack prepare pnpm@10.12.4 --activate && pnpm install && pnpm dev --host 0.0.0.0"
 
 networks:
   blog-network:

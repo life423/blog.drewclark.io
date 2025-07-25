@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    // Latest target and module settings
-    "target": "ES2023",
+    // Latest ECMAScript target and ESM module settings
+    "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2023"],
-    
-    // Output
+    "lib": ["ES2022"],
+
+    // Where to put compiled files
     "outDir": "./dist",
     "rootDir": "./src",
-    
-    // Type checking - STRICT MODE
+
+    // Strict type–checking
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
@@ -18,20 +18,27 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true,
-    
-    // Module handling
+
+    // Module interop & JSON
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
-    
-    // Emit options
+
+    // Emit settings
     "removeComments": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    
-    // Path mapping
+
+    // Speed up incremental builds
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+
+    // Enforce that unused imports aren’t shipped as values
+    "importsNotUsedAsValues": "error",
+
+    // Path aliases
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

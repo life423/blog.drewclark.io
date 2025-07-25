@@ -67,8 +67,20 @@ export class PostController {
   async createPost(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
       const body = request.body as CreatePostBody;
-      // TODO: Get authorId from authenticated user
-      const authorId = 'test-author-123'; // This will be replaced with actual auth
+      // Get authorId from authenticated user
+      const authorId = (request.user as any)?.userId;
+      console.log('🔍 JWT User ID being passed:', authorId);
+      console.log('🔍 Full JWT payload:', request.user);
+      
+      if (!authorId) {
+        throw new Error('Authentication required to create posts');
+      }
+      
+      // Diagnostic log
+      console.log(JSON.stringify({ jwtUserId: authorId, valueType: typeof authorId, msg: '⇢ creating post' }));
+      
+      // Fail-fast: ensure user exists before creating post
+      await this.postService.verifyUserExists(authorId);
       
       const post = await this.postService.createPost(body, authorId);
 

@@ -12,9 +12,13 @@ function App() {
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
-    fetch(`${apiUrl}/posts`)
+    fetch(`${apiUrl}/api/posts/public`)
       .then(res => res.json())
-      .then(data => setPosts(data))
+      .then(data => {
+        if (data.success) {
+          setPosts(data.data);
+        }
+      })
       .catch(err => console.error('Error fetching posts:', err));
   }, [apiUrl]);
 

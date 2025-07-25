@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    // Tell TypeScript this is modern React code
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    // Enable modern module resolution
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    
+    // React-specific settings
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    // Type checking options
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    // Support for import.meta.env
+    "types": ["vite/client"]
+  },
+  "include": ["src"]
+}
